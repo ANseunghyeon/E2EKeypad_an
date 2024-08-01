@@ -2,24 +2,28 @@ package bob13.presentation.controller
 
 import bob13.domain.service.KeypadService
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 
 @Controller
 @RequestMapping("/keypad")
 class KeypadController(
-    private val keypadService: KeypadService){
+    private val keypadService: KeypadService
+) {
 
-
-    @GetMapping
-    fun getKeypads() {
-
+    @GetMapping("/{id}/images")
+    @ResponseBody
+    fun getKeypadImages(@PathVariable id: Long): List<String> {
+        return keypadService.getKeypadImages(id)
     }
 
     @PostMapping("/{id}")
-    fun putKeypad_key() {
-
+    @ResponseBody
+    fun putKeypadKey(
+        @PathVariable id: Long,
+        @RequestParam userId: String,
+        @RequestParam key: String,
+        @RequestParam images: List<String>
+    ) {
+        keypadService.putKeypadKey(id, userId, key, images)
     }
-
 }
