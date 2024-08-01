@@ -1,7 +1,7 @@
 package bob13.presentation.controller
 
+import bob13.domain.model.Keypad
 import bob13.domain.service.KeypadService
-
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -10,20 +10,21 @@ class KeypadController(
     private val keypadService: KeypadService
 ) {
 
-    @GetMapping("/{id}/images")
-    @ResponseBody
-    fun getKeypadImages(@PathVariable id: Long): List<String> {
-        return keypadService.getKeypadImages(id)
+    @GetMapping
+    fun getKeypads(): Keypad {
+        return keypadService.getKeypads()
     }
 
     @PostMapping("/{id}")
-    @ResponseBody
-    fun putKeypadKey(
-        @PathVariable id: Long,
-        @RequestParam userId: String,
-        @RequestParam key: String,
-        @RequestParam images: List<String>
-    ) {
-        keypadService.putKeypadKey(id, userId, key, images)
+    fun putKeypadKey(@PathVariable id: String, @RequestBody key: String) {
+        keypadService.saveKey(id, key)
+    }
+
+    @PostMapping("/validate/{id}")
+    fun validateKeypad(
+        @PathVariable id: String,
+        @RequestBody input: List<String>
+    ): Boolean {
+        return keypadService.validateKeypad(id, input)
     }
 }
