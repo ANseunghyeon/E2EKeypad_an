@@ -6,11 +6,13 @@ import org.springframework.stereotype.Repository
 class KeypadRepository {
     private val keys = mutableMapOf<String, String>()
 
-    fun saveKey(id: String, key: String) {
-        keys[id] = key
+    fun saveKey(id: String) {
+        keys[id]
     }
 
     fun getKey(id: String): String? {
         return keys[id]
     }
 }
+
+

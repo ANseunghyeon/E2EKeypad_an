@@ -11,20 +11,7 @@ class KeypadController(
 ) {
 
     @GetMapping
-    fun getKeypads(): Keypad {
-        return keypadService.getKeypads()
-    }
-
-    @PostMapping("/{id}")
-    fun putKeypadKey(@PathVariable id: String, @RequestBody key: String) {
-        keypadService.saveKey(id, key)
-    }
-
-    @PostMapping("/validate/{id}")
-    fun validateKeypad(
-        @PathVariable id: String,
-        @RequestBody input: List<String>
-    ): Boolean {
-        return keypadService.validateKeypad(id, input)
+    fun getKeypads(@RequestParam("id") id: String): Keypad {
+        return keypadService.saveKey(id)
     }
 }
