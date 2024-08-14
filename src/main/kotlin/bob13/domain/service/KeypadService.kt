@@ -8,6 +8,7 @@ import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.InputStream
 import java.security.MessageDigest
 import java.util.*
 import javax.imageio.ImageIO
@@ -16,13 +17,11 @@ import javax.imageio.ImageIO
 class KeypadService(
     private val keypadRedisRepository: KeypadRedisRepository
 ) {
-    // SHA-256 해시값을 생성하는 함수
+
     private fun generateHash(input: String): String {
         val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
         return bytes.joinToString("") { "%02x".format(it) }
     }
-
-    // 10개의 랜덤 해시값을 생성하고 이를 0~9의 키에 맵핑하는 함수
     fun generateAndMapHashes(): List<String> {
         val hashList = mutableListOf<String>()
 
@@ -35,11 +34,11 @@ class KeypadService(
         return hashList
     }
 
-    // 전체 키패드 이미지를 생성하고 이를 base64로 인코딩하는 함수
+
     fun generateKeypadImageWithBase64(imageDir: String, hashes: List<String>): Keypad {
         val keypadLayout = mutableListOf<String?>()
 
-        // 4x3의 키패드 레이아웃에 해시값을 랜덤하게 배치
+
         val positions = (0..11).shuffled()
         for (i in positions) {
             if (i < 10) {
@@ -49,18 +48,23 @@ class KeypadService(
             }
         }
 
-        // 각 숫자 이미지를 합쳐서 하나의 키패드 이미지를 생성
-        val keypadImage = BufferedImage(400, 300, BufferedImage.TYPE_INT_RGB)
+        val keypadImage = BufferedImage(160, 150, BufferedImage.TYPE_INT_RGB)
         val g: Graphics2D = keypadImage.createGraphics()
         g.color = Color.WHITE
-        g.fillRect(0, 0, 400, 300) // 백그라운드를 하얀색으로
+        g.fillRect(0, 0, 160, 150)
 
         for (i in 0 until 12) {
-            val x = (i % 4) * 100
-            val y = (i / 4) * 100
+            val x = (i % 4) * 25
+            val y = (i / 4) * 25
             if (positions[i] < 10) {
-                val img = ImageIO.read(File("$imageDir/${positions[i]}_0.png"))
-                g.drawImage(img, x, y, null)
+
+                val resourcePath = "/images/_${positions[i]}.png"
+                val img: BufferedImage? = javaClass.getResourceAsStream(resourcePath)?.use { stream: InputStream ->
+                    ImageIO.read(stream)
+                }
+                img?.let {
+                    g.drawImage(it, x, y, null)
+                } ?: println("Image not found for position $i: $resourcePath")
             }
         }
         g.dispose()
