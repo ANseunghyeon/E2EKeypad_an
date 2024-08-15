@@ -1,0 +1,56 @@
+.table-style {
+    width: 220px;
+    height: 165px; 
+    table-layout: fixed;
+    background-color: #ffffff;
+    margin: 0 auto;
+}
+
+.td-style {
+    margin: 0;
+    padding: 50;
+}
+
+.button-style {
+    width: 55px;
+    appearance: none;
+    border-radius: 100%;
+    position: relative;
+    height: 55px;
+    margin: 0;
+    padding: 5px;
+    border: 3px solid transparent;
+    cursor: pointer;
+    background: #ffffff;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+.number-style {
+    background-repeat: no-repeat;
+    position: absolute;
+    height: 55px;
+    width: 55px;
+    margin-left: -25px;
+    top: 5px;
+}
+.number-style .key1_1{
+    background-position: 50, 50;
+}
+.input-group-style {
+    padding: 50px;
+    text-align: center;
+}
+
+.input-char-style {
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    background-color: #e5e5e5;
+    border-radius: 50%;
+    margin: 8px;
+}
+
+.input-char-style.active {
+    background-color: #2454c8;
+}

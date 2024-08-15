@@ -48,14 +48,14 @@ class KeypadService(
             }
         }
 
-        val keypadImage = BufferedImage(160, 150, BufferedImage.TYPE_INT_RGB)
+        val keypadImage = BufferedImage(240, 180, BufferedImage.TYPE_INT_RGB)
         val g: Graphics2D = keypadImage.createGraphics()
-        g.color = Color.WHITE
-        g.fillRect(0, 0, 160, 150)
+        //g.color = Color.WHITE
+        //g.fillRect(0, 0, 240, 175)
 
         for (i in 0 until 12) {
-            val x = (i % 4) * 25
-            val y = (i / 4) * 25
+            val x = (i % 4) * 60
+            val y = (i / 4) * 60
             if (positions[i] < 10) {
 
                 val resourcePath = "/images/_${positions[i]}.png"
